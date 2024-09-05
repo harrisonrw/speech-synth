@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct ContentView: View {
     @State private var inputText = ""
@@ -38,7 +39,7 @@ struct ContentView: View {
 
             VStack(alignment: .center) {
                 Button {
-                    // TODO: call speech synthesizer
+                    speak(inputText)
                 } label: {
                     Text("Synthesize")
                         .foregroundStyle(.white)
@@ -53,6 +54,14 @@ struct ContentView: View {
         }
         .padding()
         .background(Color.black.ignoresSafeArea(.all))
+    }
+
+    private func speak(_ text: String) {
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+
+        let synthesizer = AVSpeechSynthesizer()
+        synthesizer.speak(utterance)
     }
 }
 
